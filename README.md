@@ -4,7 +4,7 @@ Java实现的软件或网络实验室的Web签到程序，除基本签到功能�
 # 部分截图如下：
 - 查看签到用户（视角一）
 
-![Image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/sigin_view1.png)
+![Image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_view1.png)
 
 - 查看签到用户（视角二）
 
@@ -20,7 +20,7 @@ Java实现的软件或网络实验室的Web签到程序，除基本签到功能�
 
 - 上传的作业列表
 
-![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_assignment2.png
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_assignment2.png)
 
 - 开始签到
 
@@ -42,5 +42,7 @@ Java实现的软件或网络实验室的Web签到程序，除基本签到功能�
 
 ![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_task1.png)
 
+- Eclipse开发代码界面
 
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/eclipse.png)
 
