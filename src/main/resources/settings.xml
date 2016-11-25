@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="test1key">test1value</entry>
+	<entry key="当前班级">2013级软件工程（移动方向）一班</entry>
+	<entry key="当前日期">2014-12-29</entry>
+	<entry key="上课地点">1号楼8号机房</entry>
+	<entry key="上传目录">d:/uploads/</entry>
+	
+	<entry key="sinin.row.numbers">6</entry>
+	<entry key="signin.column.numbers">8</entry>
+</properties>
+
+<!--   2014-2015-1学期
+<entry key="当前班级">2011级计算机科学与技术</entry>  周一上午3,4节  1号楼7号机房  2014-11-10
+<entry key="当前班级">2013级软件工程（移动方向）一班</entry>  周一上午1,2节  1号楼8号机房  2014-11-10
+<entry key="当前班级">2013级软件工程（移动方向）二班</entry>  周四上午1,2节  1号楼9号机房  2014-11-13
+ -->

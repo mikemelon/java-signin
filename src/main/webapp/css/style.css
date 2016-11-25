@@ -1,0 +1,62 @@
+@CHARSET "UTF-8";
+
+#sbox_btn_close,#sbox_btn_close1 {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	right: -15px;
+	top: -15px;
+	background: url(../image/closebox.png) no-repeat center;
+	border: none;
+}
+
+#sbox_window{
+	display:none;
+	position: absolute;
+	background-color: white;
+	text-align: center;
+	overflow: visible;
+	padding: 10px;
+	border-radius: 3px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+	z-index: 65557; 
+	height: 420px;
+	width: 600px;
+	top: 80px;
+	left:350px;
+}
+
+#sbox_overlay {
+	display:none;
+	opacity: 0.5;
+	filter:alpha(opacity:50);
+	z-index: 65555;
+	position: absolute;
+	background-color: black;
+	left: 0px;
+	top: 0px;
+	border:0px;
+	padding:0px;
+	margin:0px;
+}
+
+input.big_input{
+	font-family:"Microsoft YaHei","sans-serif";
+	width:300px;
+	height:60px;
+	font-size:50px;
+}
+
+.nav1{
+	font-size: medium;
+	background: url(../image/point.gif) no-repeat left;
+	margin-top:12px;
+}
+
+.nav1:hover{
+	text-shadow:-1px -1px 0px #000;
+}
+
+.nav0{
+	text-decoration:line-through;
+}

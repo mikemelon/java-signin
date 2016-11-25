@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+table.mytable{
+	border-collapse:collapse;
+	margin: 5px 30px;
+	border-top: 2px solid #3d5;
+	border-bottom: 2px solid #3d5;
+}
+table.mytable th{
+	background-color:#eeeeff;
+}
+table.mytable th,table.mytable td{
+	padding-left:2px;
+	padding-right:2px;
+	border-bottom:1px solid #0f8;
+	border-right: 1px solid #0f8;
+	height: 26px;
+	font-size: 8pt;
+}
+table.mytable th:last-child,table.mytable td:last-child{
+	border-right: none;
+}

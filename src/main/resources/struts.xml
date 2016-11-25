@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.devMode" value="true"/>
+	<constant name="struts.ui.theme" value="simple"/>
+	<!-- 开启页面中的静态方法调用 -->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	
+	<package name="default" extends="struts-default">
+		<action name="signin" class="signInAction">
+			<result>index1.jsp</result>
+		</action>
+		<action name="view" class="signInAction">
+			<result>index2.jsp</result>
+		</action>
+		<action name="reverseview" class="signInAction" method="reverseView">
+			<result>index2.jsp</result>
+		</action>
+			
+		<action name="manage" class="manageAction">
+			<result>manage.jsp</result>
+			<result name="check">permissioncheck.jsp</result>
+		</action>
+			
+		<action name="stats" class="statsAction">
+			<result>stats.jsp</result>
+		</action>
+			
+		<action name="assignment" class="assignmentAction">
+			<result name="upload">assignment.jsp</result>
+			<result name="list">assignmentlist.jsp</result>
+		</action>
+		
+		<action name="setseat" class="seatSelectAction">
+			<result>setseat.jsp</result>
+			<result name="check">permissioncheck.jsp</result>
+		</action>
+		<action name="deleteallseats" class="seatSelectAction" method="deleteAllSeats">
+			<result>setseat.jsp</result>
+		</action>	
+		<action name="setmultipleseats" class="seatSelectAction" method="setMultipleSeats">
+			<result>setseat.jsp</result>
+		</action>
+		
+		<action name="selecttask" class="taskSelectAction">
+			<result>taskselect.jsp</result>
+		</action>	
+		<action name="confirmtask" class="taskSelectAction" method="confirmTask">
+			<result type="chain">selecttask</result>
+			<result name="error">taskselectError.jsp</result>
+		</action>
+															
+	</package>
+</struts>
