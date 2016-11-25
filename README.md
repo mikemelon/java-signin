@@ -8,39 +8,39 @@ Java实现的软件或网络实验室的Web签到程序，除基本签到功能�
 
 - 查看签到用户（视角二）
 
-![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_view2.jpg)
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_view2.png)
 
 - 签到管理（设置签到班级和时间，查看未签到人员，处理请假）
 
-![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_manage.jpg)
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_manage.png)
 
 - 上传作业
 
-![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_assignment1.jpg)
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_assignment1.png)
 
 - 上传的作业列表
 
-![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_assignment2.jpg)
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_assignment2.png
 
 - 开始签到
 
-![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_main.jpg)
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_main.png)
 
 - 签到成功
 
-![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_login_ok.jpg)
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_login_ok.png)
 
 - 设置允许坐的座位（可根据IP设置）
 
-![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_set_seats.jpg)
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_set_seats.png)
 
 - 考勤统计
 
-![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_stats.jpg)
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_stats.png)
 
 - 分配和选择任务（任务是一些可以离线完成都作业）
 
-![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_task1.jpg)
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_task1.png)
 
 
 
