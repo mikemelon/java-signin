@@ -3,7 +3,7 @@ Java实现的软件或网络实验室的Web签到程序，除基本签到功能�
 
 # 部分截图如下：
 - 查看签到用户（视角一）
-![image](https://github.com/mikemelon/java-signin/blob/master/screenshots/signin_view1.jpg)
+![image](https://raw.githubusercontent.com/mikemelon/java-signin/master/screenshots/signin_view1.jpg)
 - 查看签到用户（视角二）
 ![image](https://github.com/mikemelon/java-signin/blob/master/screenshots/signin_view2.jpg)
 - 签到管理（设置签到班级和时间，查看未签到人员，处理请假）
