@@ -1,4 +1,4 @@
-package cn.lynu.lyq.signin.dao;
+package cn.lynu.lyq.signin.service.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -7,14 +7,16 @@ import org.hibernate.CacheMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Component;
 
 import cn.lynu.lyq.signin.db.HibernateSessionFactory;
 import cn.lynu.lyq.signin.model.Student;
 import cn.lynu.lyq.signin.model.Task;
+import cn.lynu.lyq.signin.service.TaskService;
+@Component("taskService")
+public class TaskServiceImpl implements TaskService {
 
-public class TaskUtil {
-
-	public static List<Task> findAllTaskForClassName(String className){
+	public List<Task> findAllTaskForClassName(String className){
 		Session s = HibernateSessionFactory.getSession();
 		s.clear();//清除一级缓存
 		String queryString = "from Task where className=?";
@@ -40,7 +42,7 @@ public class TaskUtil {
 	 * @param taskId
 	 * @return
 	 */
-	public static boolean updateTaskForSpecificStudentByRegNo(String regNo, int taskId){
+	public boolean updateTaskForSpecificStudentByRegNo(String regNo, int taskId){
 		Session s = HibernateSessionFactory.getSession();
 		Transaction trans=s.beginTransaction();
 		try{
@@ -72,7 +74,7 @@ public class TaskUtil {
 	 * @param regNo
 	 * @return true 表示已经分配过了（任务数>0），false 表示未分配（任务数<=0，或查询过程出错）
 	 */
-	public static boolean checkStudentAlreadyAllocateTask(String regNo){
+	public boolean checkStudentAlreadyAllocateTask(String regNo){
 		Session s = HibernateSessionFactory.getSession();
 		try{
 			Query query=s.createQuery("from Student where regNo=?");
@@ -99,7 +101,7 @@ public class TaskUtil {
 		}		
 	}
 	
-	public static boolean checkTaskNotAllocated(Integer taskId){
+	public boolean checkTaskNotAllocated(Integer taskId){
 		Session s = HibernateSessionFactory.getSession();
 		try{
 			Query query=s.createQuery("from Task where id=? and stu_id is not null");

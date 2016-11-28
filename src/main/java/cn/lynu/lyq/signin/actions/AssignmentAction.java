@@ -3,14 +3,16 @@ package cn.lynu.lyq.signin.actions;
 import java.io.File;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
 
-import cn.lynu.lyq.signin.dao.AssignmentUtil;
 import cn.lynu.lyq.signin.model.Assignment;
+import cn.lynu.lyq.signin.service.AssignmentService;
 import cn.lynu.lyq.signin.util.Settings;
 @Controller
 @Scope("prototype")
@@ -18,6 +20,7 @@ public class AssignmentAction {
 	private String comments;
 	private File attachFile;
 	private String attachFileFileName;
+	@Resource private AssignmentService assignmentService;
 	
 	public File getAttachFile() {
 		return attachFile;
@@ -55,16 +58,16 @@ public class AssignmentAction {
 				if(!file.exists())  file.mkdirs();
 				FileUtils.copyFile(attachFile,new File(file,attachFileFileName));
 				
-				/*boolean submitOK=*/AssignmentUtil.saveAssignmentWithCurDate(regNo,
+				/*boolean submitOK=*/assignmentService.saveAssignmentWithCurDate(regNo,
 						new File(file,attachFileFileName).getAbsolutePath(), comments);
 				
-				List<Assignment> list=AssignmentUtil.getAssignmentList();
+				List<Assignment> list=assignmentService.getAssignmentList();
 				ctx.put("ASSIGNMENT_LIST", list);
 				return "list";
 			}
 			return "upload";
 		}else{
-			List<Assignment> list=AssignmentUtil.getAssignmentList();
+			List<Assignment> list=assignmentService.getAssignmentList();
 			ctx.put("ASSIGNMENT_LIST", list);			
 			return "list";
 		}

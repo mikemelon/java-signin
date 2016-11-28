@@ -1,4 +1,4 @@
-package cn.lynu.lyq.signin.dao;
+package cn.lynu.lyq.signin.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,17 +8,19 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Component;
 
 import cn.lynu.lyq.signin.db.HibernateSessionFactory;
 import cn.lynu.lyq.signin.model.AbsentRequest;
 import cn.lynu.lyq.signin.model.Student;
+import cn.lynu.lyq.signin.service.AbsentRequestService;
 import cn.lynu.lyq.signin.util.DateUtil;
-
-public class AbsentRequestUtil {
+@Component("absentRequestService")
+public class AbsentRequestServiceImpl implements AbsentRequestService {
 	/* 
 	 * 日期格式必须为"yyyy-MM-dd"
 	 */
-	public static boolean getRequestForStudentAndDate(String regNo,String dateStr){
+	public boolean getRequestForStudentAndDate(String regNo,String dateStr){
 		Session s = HibernateSessionFactory.getSession();
 //		s.clear();
 		Query query = s.createQuery("select count(*) " 
@@ -46,7 +48,7 @@ public class AbsentRequestUtil {
 		}		
 	}
 	
-	public static boolean addAbsentReqeust(String stuId, Date date){
+	public boolean addAbsentReqeust(String stuId, Date date){
 		Session s = HibernateSessionFactory.getSession();
 		Transaction trans = s.beginTransaction();		
 		
@@ -71,7 +73,7 @@ public class AbsentRequestUtil {
 	/* 
 	 * 日期格式必须为"yyyy-MM-dd"
 	 */
-	public static List<Student> getAbsentRequestStudentsForClassAndDate(String className, String dateStr){
+	public List<Student> getAbsentRequestStudentsForClassAndDate(String className, String dateStr){
 		Session s = HibernateSessionFactory.getSession();
 //		s.clear();
 		Query query = s.createQuery(

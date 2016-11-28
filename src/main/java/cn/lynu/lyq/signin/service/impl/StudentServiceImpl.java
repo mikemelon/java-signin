@@ -1,4 +1,4 @@
-package cn.lynu.lyq.signin.dao;
+package cn.lynu.lyq.signin.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,15 +7,17 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Component;
 
 import cn.lynu.lyq.signin.db.HibernateSessionFactory;
 import cn.lynu.lyq.signin.model.SignRecord;
 import cn.lynu.lyq.signin.model.Student;
+import cn.lynu.lyq.signin.service.StudentService;
 import cn.lynu.lyq.signin.util.DateUtil;
 import cn.lynu.lyq.signin.util.Settings;
-
-public class StudentUtil {
-	public static Student validateStudent(String regNo, String name){
+@Component("studentService")
+public class StudentServiceImpl implements StudentService {
+	public Student validateStudent(String regNo, String name){
 		Session s = HibernateSessionFactory.getSession();
 		Query query = s.createQuery("from Student where name=? and regNo=?");
 		query.setString(0, name);
@@ -33,7 +35,7 @@ public class StudentUtil {
 		}
 	}
 	
-	public static List<Student> findByOnline(Boolean online, String className){
+	public List<Student> findByOnline(Boolean online, String className){
 		Session s = HibernateSessionFactory.getSession();
 //		s.clear();
 		String queryString = null;
@@ -56,7 +58,7 @@ public class StudentUtil {
 		}		
 	}
 	
-	public static Student getIPForCurDate(String ip){
+	public Student getIPForCurDate(String ip){
 		Session s = HibernateSessionFactory.getSession();
 		Query query = s.createQuery("from SignRecord where ip=? and regDate between :aa and :bb");
 		query.setString(0, ip);
@@ -78,7 +80,7 @@ public class StudentUtil {
 		}		
 	}
 	
-	public static List<String> findDistinctClassName(){
+	public List<String> findDistinctClassName(){
 		Session s = HibernateSessionFactory.getSession();
 //		s.clear();
 		Query query = s.createQuery("select distinct s.className from Student s");
@@ -93,7 +95,7 @@ public class StudentUtil {
 		}		
 	}	
 	
-	public static boolean updateStudent(Student stuToUpdate, String ipAddress, int rowIndex, int columnIndex){
+	public boolean updateStudent(Student stuToUpdate, String ipAddress, int rowIndex, int columnIndex){
 		Session s = HibernateSessionFactory.getSession();
 		Transaction trans = s.beginTransaction();
 		try{
@@ -115,7 +117,7 @@ public class StudentUtil {
 		return true;
 	}
 	
-	public static boolean updateStudentOnline(String className, boolean online){
+	public boolean updateStudentOnline(String className, boolean online){
 		Session s = HibernateSessionFactory.getSession();
 		Transaction trans = s.beginTransaction();
 		try{
@@ -132,7 +134,7 @@ public class StudentUtil {
 		return true;
 	}	
 
-	public static List<Student> getAllStudent(String className){
+	public List<Student> getAllStudent(String className){
 		Session s = HibernateSessionFactory.getSession();
 //		s.clear();
 		Query query = s.createQuery("from Student where className=?");
@@ -149,7 +151,7 @@ public class StudentUtil {
 		
 	}
 
-	public static List<Object[]> getStatsList(String currentClassName) {
+	public List<Object[]> getStatsList(String currentClassName) {
 		Session s = HibernateSessionFactory.getSession();
 //		s.clear();
 		Query query = s.createQuery("select s.name, s.id, s.regNo, s.className,r.regDate " 
@@ -168,7 +170,7 @@ public class StudentUtil {
 	/* 
 	 * 日期格式必须为"yyyy-MM-dd"
 	 */
-	public static boolean getStatsListByRegNoAndRegDate(String currentClassName, String regNo, String dateStr) {
+	public boolean getStatsListByRegNoAndRegDate(String currentClassName, String regNo, String dateStr) {
 		Session s = HibernateSessionFactory.getSession();
 //		s.clear();
 		Query query = s.createQuery("select count(*) " 

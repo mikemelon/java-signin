@@ -1,17 +1,19 @@
-package cn.lynu.lyq.signin.dao;
+package cn.lynu.lyq.signin.service.impl;
 
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Component;
 
 import cn.lynu.lyq.signin.db.HibernateSessionFactory;
 import cn.lynu.lyq.signin.model.SeatAvailable;
+import cn.lynu.lyq.signin.service.SeatAvailableService;
+@Component("seatAvailableService")
+public class SeatAvailableServiceImpl implements SeatAvailableService {
 
-public class SeatAvailableUtil {
-
-	public static List<SeatAvailable> findAllSeatAvailable(){
+	public List<SeatAvailable> findAllSeatAvailable(){
 		Session s = HibernateSessionFactory.getSession();
 //		Configuration cfg=new Configuration().configure();
 //		SessionFactory sf=cfg.buildSessionFactory();
@@ -31,7 +33,7 @@ public class SeatAvailableUtil {
 		}		
 	}
 	
-	public static boolean deleteAvailableSeatForRowAndColumn(int row, int column){
+	public boolean deleteAvailableSeatForRowAndColumn(int row, int column){
 		Session s = HibernateSessionFactory.getSession();
 		Transaction trans = s.beginTransaction();
 		try{
@@ -49,7 +51,7 @@ public class SeatAvailableUtil {
 	}	
 
 	
-	public static boolean deleteAllAvailableSeat(){
+	public boolean deleteAllAvailableSeat(){
 		Session s = HibernateSessionFactory.getSession();
 		Transaction trans = s.beginTransaction();
 		try{
@@ -64,7 +66,7 @@ public class SeatAvailableUtil {
 		return true;
 	}
 	
-	public static boolean updateSeatForRowAndColumn(int row, int column){
+	public boolean updateSeatForRowAndColumn(int row, int column){
 		Session s = HibernateSessionFactory.getSession();
 		Transaction trans = s.beginTransaction();
 		try{
@@ -91,7 +93,7 @@ public class SeatAvailableUtil {
 		return true;		
 	}
 	
-	public static boolean updateSeatForMultipleRowAndColumn(int rowNum, int colNum){
+	public boolean updateSeatForMultipleRowAndColumn(int rowNum, int colNum){
 		Session s = HibernateSessionFactory.getSession();
 		Transaction trans = s.beginTransaction();
 		try{

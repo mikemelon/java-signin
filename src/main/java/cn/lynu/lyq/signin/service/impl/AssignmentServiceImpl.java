@@ -1,4 +1,4 @@
-package cn.lynu.lyq.signin.dao;
+package cn.lynu.lyq.signin.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,18 +7,20 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Component;
 
 import cn.lynu.lyq.signin.db.HibernateSessionFactory;
 import cn.lynu.lyq.signin.model.Assignment;
 import cn.lynu.lyq.signin.model.Student;
+import cn.lynu.lyq.signin.service.AssignmentService;
 import cn.lynu.lyq.signin.util.DateUtil;
 import cn.lynu.lyq.signin.util.Settings;
-
-public class AssignmentUtil {
+@Component("assignmentService")
+public class AssignmentServiceImpl implements AssignmentService {
 	/* 
 	 * 日期格式必须为"yyyy-MM-dd"
 	 */
-	public static boolean saveAssignmentWithCurDate(String regNo, String filePath, String comments){
+	public boolean saveAssignmentWithCurDate(String regNo, String filePath, String comments){
 		Session s = HibernateSessionFactory.getSession();
 		Transaction trans = s.beginTransaction();		
 		
@@ -53,7 +55,7 @@ public class AssignmentUtil {
 	/* 
 	 * 日期格式必须为"yyyy-MM-dd"
 	 */
-	public static List<Assignment> getAssignmentList(){
+	public List<Assignment> getAssignmentList(){
 		Session s = HibernateSessionFactory.getSession();
 //		s.clear();
 		

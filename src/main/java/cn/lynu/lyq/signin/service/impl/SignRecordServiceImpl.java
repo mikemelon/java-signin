@@ -1,4 +1,4 @@
-package cn.lynu.lyq.signin.dao;
+package cn.lynu.lyq.signin.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,16 +8,18 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Component;
 
 import cn.lynu.lyq.signin.db.HibernateSessionFactory;
 import cn.lynu.lyq.signin.model.SignRecord;
 import cn.lynu.lyq.signin.model.Student;
+import cn.lynu.lyq.signin.service.SignRecordService;
 import cn.lynu.lyq.signin.util.DateUtil;
 import cn.lynu.lyq.signin.util.Settings;
+@Component("signRecordService")
+public class SignRecordServiceImpl implements SignRecordService {
 
-public class SignRecordUtil {
-
-	public static SignRecord getSignRecordByStuId(int studentId){
+	public SignRecord getSignRecordByStuId(int studentId){
 		Session s = HibernateSessionFactory.getSession();
 		Query query = s.createQuery("from SignRecord where stu_id=? and regDate between :aa and :bb");
 		query.setInteger(0, studentId);
@@ -43,7 +45,7 @@ public class SignRecordUtil {
 	/* 
 	 * 日期格式必须为"yyyy-MM-dd"
 	 */
-	public static List<SignRecord> getSignRecordByRegDate(String dateStr){
+	public List<SignRecord> getSignRecordByRegDate(String dateStr){
 		Date[] dates = DateUtil.getBetweenDates(dateStr);
 
 		Session s = HibernateSessionFactory.getSession();
@@ -66,7 +68,7 @@ public class SignRecordUtil {
 	/* 
 	 * 日期格式必须为"yyyy-MM-dd"
 	 */
-	public static boolean updateStudentOnlineByRegDate(String dateStr, String className){
+	public boolean updateStudentOnlineByRegDate(String dateStr, String className){
 		Session s = HibernateSessionFactory.getSession();
 		Transaction trans = s.beginTransaction();
 		
@@ -113,7 +115,7 @@ public class SignRecordUtil {
 		where record.regDate between '2014-12-22 00:00:00' and '2014-12-22 23:59:59'
 				and record.ip='127.0.0.1' and stu.className='2013级软件工程（移动方向）一班'
 	 */
-	public static Student getStudentByRegDateAndIpAndClassName(String dateStr, String ip, String className){
+	public Student getStudentByRegDateAndIpAndClassName(String dateStr, String ip, String className){
 		Date[] dates = DateUtil.getBetweenDates(dateStr);
 
 		Session s = HibernateSessionFactory.getSession();

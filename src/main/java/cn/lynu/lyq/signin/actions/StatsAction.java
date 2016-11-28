@@ -8,14 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import cn.lynu.lyq.signin.dao.AbsentRequestUtil;
-import cn.lynu.lyq.signin.dao.StudentUtil;
 import cn.lynu.lyq.signin.model.Student;
+import cn.lynu.lyq.signin.service.AbsentRequestService;
+import cn.lynu.lyq.signin.service.StudentService;
 import cn.lynu.lyq.signin.util.Settings;
 @Controller
 @Scope("prototype")
@@ -27,6 +29,9 @@ public class StatsAction extends ActionSupport{
 	private List<Map<String,String>> studentList; 
 	private String currentClassName="2009网络工程";
 	private String isPost="0";
+	
+	@Resource private StudentService studentService;
+	@Resource private AbsentRequestService absentRequestService;
 	
 	public String getCurrentClassName() {
 		return currentClassName;
@@ -69,14 +74,14 @@ public class StatsAction extends ActionSupport{
 	}
 
 	public String execute(){
-		classNameList = StudentUtil.findDistinctClassName();
+		classNameList = studentService.findDistinctClassName();
 		if(isPost!=null && isPost.equals("0")){
 			currentClassName = Settings.load(Settings.CURRENT_CLASS_KEY);
 		}else if(isPost!=null && isPost.equals("1")){
 			
 		}
 		
-		List<Object[]> studentListRaw = StudentUtil.getStatsList(currentClassName);//join查询得到的是每条数据是Object[]
+		List<Object[]> studentListRaw = studentService.getStatsList(currentClassName);//join查询得到的是每条数据是Object[]
 //		System.out.println("aaa===="+studentList.get(0));
 //		Object[] oo=(Object[])studentList.get(0);
 //		System.out.println("bbb===="+oo[4]);
@@ -100,7 +105,7 @@ public class StatsAction extends ActionSupport{
 		dateList=distinctDateList;
 		
 		//生成统计列表
-		List<Student> allStudentList = StudentUtil.getAllStudent(currentClassName);
+		List<Student> allStudentList = studentService.getAllStudent(currentClassName);
 		List<Map<String,String>> list2=new ArrayList<Map<String,String>>();
 		
 		for(Student stu:allStudentList){
@@ -111,11 +116,11 @@ public class StatsAction extends ActionSupport{
 			stuItem.put("name", stu.getName());
 			
 			for(String dateItem:distinctDateList){
-				boolean isReg = StudentUtil.getStatsListByRegNoAndRegDate(currentClassName,regNo,dateItem);
+				boolean isReg = studentService.getStatsListByRegNoAndRegDate(currentClassName,regNo,dateItem);
 				stuItem.put(dateItem, String.valueOf(isReg));
 //				请假学生
 				if(false==isReg){
-					boolean isRequestForAbsent=AbsentRequestUtil.getRequestForStudentAndDate(regNo,dateItem);
+					boolean isRequestForAbsent=absentRequestService.getRequestForStudentAndDate(regNo,dateItem);
 					if(isRequestForAbsent){
 						stuItem.put(dateItem, "REQUEST_FOR_ABSENT");
 					}

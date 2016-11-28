@@ -2,14 +2,16 @@ package cn.lynu.lyq.signin.actions;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-import cn.lynu.lyq.signin.dao.TaskUtil;
 import cn.lynu.lyq.signin.model.Task;
+import cn.lynu.lyq.signin.service.TaskService;
 import cn.lynu.lyq.signin.util.Settings;
 @Controller
 @Scope("prototype")
@@ -19,6 +21,7 @@ public class TaskSelectAction extends ActionSupport {
 	private List<Task> taskList;
 	private Integer taskId;
 	private Boolean taskAllocatedFlag;
+	@Resource private TaskService taskService;
 
 	public List<Task> getTaskList() {
 		return taskList;
@@ -48,11 +51,11 @@ public class TaskSelectAction extends ActionSupport {
 	public String execute() throws Exception {
 		Settings.PROJECT_REAL_PATH = getClass().getResource("/").getPath() ;
 		String currentClassName = Settings.load(Settings.CURRENT_CLASS_KEY);
-		taskList=TaskUtil.findAllTaskForClassName(currentClassName);
+		taskList=taskService.findAllTaskForClassName(currentClassName);
 		
 		ActionContext ctx=ActionContext.getContext();
 		String stuRegNo=(String)ctx.getSession().get("CURRENT_USER_REGID");
-		if(TaskUtil.checkStudentAlreadyAllocateTask(stuRegNo)){
+		if(taskService.checkStudentAlreadyAllocateTask(stuRegNo)){
 //			System.out.println("学号："+stuRegNo+"任务已经分配过了");
 			taskAllocatedFlag=true;
 		}else{
@@ -65,16 +68,16 @@ public class TaskSelectAction extends ActionSupport {
 	public String confirmTask() throws Exception{
 		ActionContext ctx=ActionContext.getContext();
 		String stuRegNo=(String)ctx.getSession().get("CURRENT_USER_REGID");
-		if(TaskUtil.checkStudentAlreadyAllocateTask(stuRegNo)){
+		if(taskService.checkStudentAlreadyAllocateTask(stuRegNo)){
 			System.out.println("学号："+stuRegNo+"任务已经分配过了");
 			return ERROR;
 		}
-		if(TaskUtil.checkTaskNotAllocated(taskId)){
+		if(taskService.checkTaskNotAllocated(taskId)){
 			System.out.println("编号为"+taskId+"的任务已经被分配了！");
 		}
 		boolean updateFlg=false;
 		if( stuRegNo!=null && !stuRegNo.equals("")){
-			updateFlg=TaskUtil.updateTaskForSpecificStudentByRegNo(stuRegNo, taskId);
+			updateFlg=taskService.updateTaskForSpecificStudentByRegNo(stuRegNo, taskId);
 		}
 		if(updateFlg)
 			return SUCCESS;

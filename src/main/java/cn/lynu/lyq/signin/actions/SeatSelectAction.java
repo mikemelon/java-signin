@@ -3,12 +3,14 @@ package cn.lynu.lyq.signin.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import cn.lynu.lyq.signin.dao.SeatAvailableUtil;
 import cn.lynu.lyq.signin.model.SeatAvailable;
+import cn.lynu.lyq.signin.service.SeatAvailableService;
 import cn.lynu.lyq.signin.util.Settings;
 @Controller
 @Scope("prototype")
@@ -21,6 +23,8 @@ public class SeatSelectAction {
 	private String isPost="0";
 	
 	private boolean[][] availableArray=new boolean[10][16]; //全部（最大）座位可用状态 列表
+	
+	@Resource private SeatAvailableService seatAvailableService;
 
 	public boolean[][] getAvailableArray() {
 		return availableArray;
@@ -71,7 +75,7 @@ public class SeatSelectAction {
 	}
 
 	private void getAvailableList(){
-		List<SeatAvailable> seatList=SeatAvailableUtil.findAllSeatAvailable();
+		List<SeatAvailable> seatList=seatAvailableService.findAllSeatAvailable();
 		if(seatList!=null){
 			for(SeatAvailable s:seatList){
 				availableArray[s.getRow()-1][s.getCol()-1]=true;
@@ -84,7 +88,7 @@ public class SeatSelectAction {
 		rowNum=Integer.parseInt(Settings.load(Settings.SIGNIN_ROW_NUMBERS_KEY));
 		colNum=Integer.parseInt(Settings.load(Settings.SIGNIN_COLUMN_NUMBERS_KEY));
 		
-		SeatAvailableUtil.deleteAllAvailableSeat();
+		seatAvailableService.deleteAllAvailableSeat();
 		getAvailableList();
 		return "success";
 	}
@@ -95,7 +99,7 @@ public class SeatSelectAction {
 		Settings.save(Settings.SIGNIN_ROW_NUMBERS_KEY, String.valueOf(rowNum));
 		Settings.save(Settings.SIGNIN_COLUMN_NUMBERS_KEY, String.valueOf(colNum));
 		
-		SeatAvailableUtil.updateSeatForMultipleRowAndColumn(rowNum,colNum);
+		seatAvailableService.updateSeatForMultipleRowAndColumn(rowNum,colNum);
 		getAvailableList();
 		return "success";
 	}
@@ -144,7 +148,7 @@ public class SeatSelectAction {
 		}else if(isPost!=null && isPost.equals("1")){ // 更改单个座位
 			System.out.println("更改座位("+rowIndex+","+columnIndex+")中");
 			if(rowIndex!=0 && columnIndex!=0){
-				SeatAvailableUtil.updateSeatForRowAndColumn(rowIndex,columnIndex);
+				seatAvailableService.updateSeatForRowAndColumn(rowIndex,columnIndex);
 			}
 		}
 		getAvailableList();

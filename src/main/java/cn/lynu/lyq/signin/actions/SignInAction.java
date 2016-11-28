@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.annotation.Resource;
+
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -13,13 +15,13 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-import cn.lynu.lyq.signin.dao.AbsentRequestUtil;
-import cn.lynu.lyq.signin.dao.SeatAvailableUtil;
-import cn.lynu.lyq.signin.dao.SignRecordUtil;
-import cn.lynu.lyq.signin.dao.StudentUtil;
 import cn.lynu.lyq.signin.model.SeatAvailable;
 import cn.lynu.lyq.signin.model.SignRecord;
 import cn.lynu.lyq.signin.model.Student;
+import cn.lynu.lyq.signin.service.AbsentRequestService;
+import cn.lynu.lyq.signin.service.SeatAvailableService;
+import cn.lynu.lyq.signin.service.SignRecordService;
+import cn.lynu.lyq.signin.service.StudentService;
 import cn.lynu.lyq.signin.util.Settings;
 @Controller
 @Scope("prototype")
@@ -44,6 +46,11 @@ public class SignInAction extends ActionSupport{
 	private String isPost="0";
 	private List<Student> absentRequestStudentList;
 	private String currentClassName ="2009网络工程";
+	
+	@Resource private StudentService studentService;
+	@Resource private AbsentRequestService absentRequestService;
+	@Resource private SeatAvailableService seatAvailableService;
+	@Resource private SignRecordService signRecordService;
 
 	public String getErrorMsg() {
 		return errorMsg;
@@ -174,7 +181,7 @@ public class SignInAction extends ActionSupport{
 	}
 
 	public void loadStudentList() {
-		List<Student> studentList = StudentUtil.getAllStudent(currentClassName);
+		List<Student> studentList = studentService.getAllStudent(currentClassName);
 		nameList = new ArrayList<String>();
 		regNoList = new ArrayList<String>();
 		nameList.add("---选择姓名---");
@@ -194,7 +201,7 @@ public class SignInAction extends ActionSupport{
 			// 设置在线学生所在位置的姓名、学号、在线状态
 			if(stu.isOnline()!=null && stu.isOnline()==true){
 //				System.out.println("在线中:"+stu.getName()+"/"+stu.isOnline());
-				SignRecord signRecord = SignRecordUtil.getSignRecordByStuId(stu.getId());
+				SignRecord signRecord = signRecordService.getSignRecordByStuId(stu.getId());
 				if(signRecord!=null){
 					int rowOnline1=signRecord.getRowIndex();
 					int columnOnline1 = signRecord.getColumnIndex();
@@ -207,7 +214,7 @@ public class SignInAction extends ActionSupport{
 	}
 	
 	private void getAvailableSeatList(){
-		List<SeatAvailable> seatList=SeatAvailableUtil.findAllSeatAvailable();
+		List<SeatAvailable> seatList=seatAvailableService.findAllSeatAvailable();
 		if(seatList!=null){
 			for(SeatAvailable s:seatList){
 				availableArray[s.getRow()-1][s.getCol()-1]=true;
@@ -267,7 +274,7 @@ public class SignInAction extends ActionSupport{
 	}
 	
 	private void getAbsentRequestList(String className,String dateStr){
-		absentRequestStudentList = AbsentRequestUtil.getAbsentRequestStudentsForClassAndDate(className,dateStr);
+		absentRequestStudentList = absentRequestService.getAbsentRequestStudentsForClassAndDate(className,dateStr);
 	}
 	
 	public String execute(){
@@ -287,7 +294,7 @@ public class SignInAction extends ActionSupport{
 		
 		if(isPost==null || isPost.equals("0")){ //非通过登录场合（直接刷新页面）
 			
-			Student stuLogin=SignRecordUtil.getStudentByRegDateAndIpAndClassName(currentDate,ip,currentClassName);
+			Student stuLogin=signRecordService.getStudentByRegDateAndIpAndClassName(currentDate,ip,currentClassName);
 			if(stuLogin!=null){
 				studentNo1 = stuLogin.getRegNo();
 				name1 = stuLogin.getName();
@@ -303,7 +310,7 @@ public class SignInAction extends ActionSupport{
 				errorMsg="必须输入学号!";
 				return "success";
 			}
-			Student stu1 = StudentUtil.validateStudent(studentNo1,  name1);
+			Student stu1 = studentService.validateStudent(studentNo1,  name1);
 			if(stu1== null ){
 				errorMsg="姓名学号输入错误，你可能不是本班学生";
 				return "success";
@@ -313,7 +320,7 @@ public class SignInAction extends ActionSupport{
 				return "success";			
 			}
 			//判断当日的重复IP登陆
-			Student stu_tmp = StudentUtil.getIPForCurDate(ip);
+			Student stu_tmp = studentService.getIPForCurDate(ip);
 			if(stu_tmp!=null){
 				System.out.println(stu1.getName()+"--->重复IP登陆");
 				errorMsg="已经有" + stu_tmp.getName() + 
@@ -333,7 +340,7 @@ public class SignInAction extends ActionSupport{
 			
 			stu1.setClassName(currentClassName);
 			stu1.setOnline(true);
-			StudentUtil.updateStudent(stu1, ip, rowIndex, columnIndex);
+			studentService.updateStudent(stu1, ip, rowIndex, columnIndex);
 		}
 		
 		ActionContext ctx=ActionContext.getContext();

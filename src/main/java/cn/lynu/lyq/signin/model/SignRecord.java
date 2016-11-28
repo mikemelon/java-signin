@@ -30,6 +30,8 @@ public class SignRecord implements java.io.Serializable {
 	
 	private int columnIndex;
 	
+	public SignRecord(){}
+	
 	public int getId() {
 		return id;
 	}

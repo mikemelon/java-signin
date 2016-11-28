@@ -2,9 +2,11 @@ package cn.lynu.lyq.signin.test;
 
 import java.util.List;
 
-import cn.lynu.lyq.signin.dao.SignRecordUtil;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import cn.lynu.lyq.signin.model.SignRecord;
 import cn.lynu.lyq.signin.model.Student;
+import cn.lynu.lyq.signin.service.SignRecordService;
 
 public class Hello {
 	private String name;
@@ -51,14 +53,16 @@ public class Hello {
 //			Student stu2=(Student)(list.get(0));
 //			System.out.println(stu2.isOnline());
 //		}
-
-		List<SignRecord> list = SignRecordUtil.getSignRecordByRegDate("2012-04-25");
+		ClassPathXmlApplicationContext ctx =new ClassPathXmlApplicationContext("applicationContext.xml");
+		SignRecordService signRecordService = (SignRecordService)ctx.getBean("signRecordService");
+		List<SignRecord> list = signRecordService.getSignRecordByRegDate("2012-04-25");
 		System.out.println("length==="+list.size());
 		for(SignRecord record:list){
 //			SignRecord record = (SignRecord)o;
 			Student stu =record.getStudent();
 			System.out.println(stu.getName());
 		}
+		ctx.close();
 	}
 
 
