@@ -7,7 +7,7 @@ import java.io.FileReader;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import cn.lynu.lyq.signin.db.HibernateSessionFactory;
+import cn.lynu.lyq.signin.db.HibernateSessionFactoryOld;
 import cn.lynu.lyq.signin.model.Task;
 
 public class ImportTaskFromCSV {
@@ -18,7 +18,7 @@ public class ImportTaskFromCSV {
 		String realPath=new File("").getAbsolutePath()+"\\src\\main\\resources\\import\\";
 		BufferedReader bfr=new BufferedReader(new FileReader(new File(realPath+"task1.csv")));
 		
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateSessionFactoryOld.getSession();
 		Transaction trans=session.beginTransaction();
 		
 		String line=null;

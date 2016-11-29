@@ -9,7 +9,7 @@ import org.hibernate.cfg.Configuration;
  * current thread of execution.  Follows the Thread Local Session
  * pattern, see {@link http://hibernate.org/42.html }.
  */
-public class HibernateSessionFactory {
+public class HibernateSessionFactoryOld {
 
     /** 
      * Location of hibernate.cfg.xml file.
@@ -35,7 +35,7 @@ public class HibernateSessionFactory {
 			e.printStackTrace();
 		}
     }
-    private HibernateSessionFactory() {
+    private HibernateSessionFactoryOld() {
     }
 	
 	/**
@@ -103,7 +103,7 @@ public class HibernateSessionFactory {
      *	session factory will be rebuilded in the next call
      */
 	public static void setConfigFile(String configFile) {
-		HibernateSessionFactory.configFile = configFile;
+		HibernateSessionFactoryOld.configFile = configFile;
 		sessionFactory = null;
 	}
 

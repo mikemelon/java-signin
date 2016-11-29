@@ -9,6 +9,8 @@ import java.util.Properties;
 import javax.annotation.Resource;
 
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -26,8 +28,9 @@ import cn.lynu.lyq.signin.util.Settings;
 @Controller
 @Scope("prototype")
 public class SignInAction extends ActionSupport{
-
 	private static final long serialVersionUID = 4352261317606336838L;
+	private static Logger logger = LoggerFactory.getLogger(SignInAction.class);
+	
 	private Integer rowIndex; //提交在线学生的行号（1开始） 
 	private Integer columnIndex; //提交在线学生的列号（1开始）
 	private String name1; //提交在线学生的姓名
@@ -200,7 +203,7 @@ public class SignInAction extends ActionSupport{
 			regNoList.add(stu.getRegNo());
 			// 设置在线学生所在位置的姓名、学号、在线状态
 			if(stu.isOnline()!=null && stu.isOnline()==true){
-//				System.out.println("在线中:"+stu.getName()+"/"+stu.isOnline());
+//				logger.info("在线中:"+stu.getName()+"/"+stu.isOnline());
 				SignRecord signRecord = signRecordService.getSignRecordByStuId(stu.getId());
 				if(signRecord!=null){
 					int rowOnline1=signRecord.getRowIndex();
@@ -246,7 +249,7 @@ public class SignInAction extends ActionSupport{
 		try{
 			prop.load(new FileInputStream(ipTableFilePathName));
 			String seatPair=(String)prop.get(ip.trim());
-			System.out.println("登录IP是："+ip + ",在当前IP座位对照表（"+ ipTableFileName +
+			logger.info("登录IP是："+ip + ",在当前IP座位对照表（"+ ipTableFileName +
 					 "）中查询的结果为："+seatPair);
 			int ipRow=0,ipColumn=0;
 			if(seatPair!=null && "".equals(seatPair)==false){
@@ -298,7 +301,7 @@ public class SignInAction extends ActionSupport{
 			if(stuLogin!=null){
 				studentNo1 = stuLogin.getRegNo();
 				name1 = stuLogin.getName();
-				System.out.println("从数据库中判断，当前登录的用户为：studentNo1=" + studentNo1 + ",  name1=" + name1 );
+				logger.info("从数据库中判断，当前登录的用户为：studentNo1=" + studentNo1 + ",  name1=" + name1 );
 			}
 		}else if(isPost!=null && isPost.equals("1")){ //登录场合
 			
@@ -313,16 +316,18 @@ public class SignInAction extends ActionSupport{
 			Student stu1 = studentService.validateStudent(studentNo1,  name1);
 			if(stu1== null ){
 				errorMsg="姓名学号输入错误，你可能不是本班学生";
+				logger.info("姓名学号输入错误，你可能不是本班学生, regNo={}, name={}",studentNo1,name1);
 				return "success";
 			}
 			if(stu1.isOnline()!=null && stu1.isOnline()==true){
 				errorMsg="该学生已经登陆，如有问题请联系管理员";
+				logger.info("该学生 - {}  已经登陆，如有问题请联系管理员，(原因可能是student表的登录状态true)",stu1.getName());
 				return "success";			
 			}
 			//判断当日的重复IP登陆
 			Student stu_tmp = studentService.getIPForCurDate(ip);
 			if(stu_tmp!=null){
-				System.out.println(stu1.getName()+"--->重复IP登陆");
+				logger.info(stu1.getName()+"--->重复IP登陆");
 				errorMsg="已经有" + stu_tmp.getName() + 
 						 "（学号:"+stu_tmp.getRegNo()+")用这个IP登陆，疑似代人签到，如有问题请联系管理员";
 				return "success";					
@@ -331,12 +336,12 @@ public class SignInAction extends ActionSupport{
 			online[rowIndex-1][columnIndex-1]=true;
 			name[rowIndex-1][columnIndex-1]=name1;
 			studentNo[rowIndex-1][columnIndex-1]=studentNo1;		
-			System.out.println("-----------------------------------");
-			System.out.println("ip="+ip+"/rowIndex="+rowIndex+"/columnIndex="+columnIndex);
-			System.out.println("name["+(rowIndex-1)+"]"+"["+(columnIndex-1)+"]="+name[rowIndex-1][columnIndex-1]);
-			System.out.println("studentNo["+(rowIndex-1)+"]"+"["+(columnIndex-1)+"]="+studentNo[rowIndex-1][columnIndex-1]);
-			System.out.println("online["+(rowIndex-1)+"]"+"["+(columnIndex-1)+"]="+online[rowIndex-1][columnIndex-1]);
-			System.out.println("-----------------------------------");
+			logger.info("-----------------------------------");
+			logger.info("ip="+ip+"/rowIndex="+rowIndex+"/columnIndex="+columnIndex);
+			logger.info("name["+(rowIndex-1)+"]"+"["+(columnIndex-1)+"]="+name[rowIndex-1][columnIndex-1]);
+			logger.info("studentNo["+(rowIndex-1)+"]"+"["+(columnIndex-1)+"]="+studentNo[rowIndex-1][columnIndex-1]);
+			logger.info("online["+(rowIndex-1)+"]"+"["+(columnIndex-1)+"]="+online[rowIndex-1][columnIndex-1]);
+			logger.info("-----------------------------------");
 			
 			stu1.setClassName(currentClassName);
 			stu1.setOnline(true);
@@ -358,7 +363,7 @@ public class SignInAction extends ActionSupport{
 //		colNum=Integer.parseInt(Settings.load(Settings.SIGNIN_COLUMN_NUMBERS_KEY));		
 		
 		inverseView=!inverseView;
-//		System.out.println("method reverseView::: rowNum="+rowNum+"/ colNum="+colNum+"/ inverseView="+inverseView);
+//		logger.info("method reverseView::: rowNum="+rowNum+"/ colNum="+colNum+"/ inverseView="+inverseView);
 		return "success";
 	}
 	
@@ -380,7 +385,7 @@ public class SignInAction extends ActionSupport{
 				indexList.add(i);
 			}			
 		}
-//		System.out.println("row indexList="+indexList.toString());
+//		logger.info("row indexList="+indexList.toString());
 		return indexList;
 	}	
 	
@@ -410,7 +415,7 @@ public class SignInAction extends ActionSupport{
 				indexList.add(i);
 			}
 		}
-//		System.out.println("column indexList="+indexList.toString());
+//		logger.info("column indexList="+indexList.toString());
 		return indexList;
 	}	
 }

@@ -5,7 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Settings {
+	private static Logger logger = LoggerFactory.getLogger(Settings.class);
 	
 	public static final String CURRENT_CLASS_KEY="当前班级";
 	public static final String CURRENT_DATE_KEY="当前日期";
@@ -24,7 +28,7 @@ public class Settings {
 			try{
 				File propFile = new File(PROJECT_REAL_PATH + SETTINGS_FILE_NAME);
 				if(!propFile.exists()) {
-					System.out.println("Settings初始化");
+					logger.info("Settings初始化");
 					propFile.createNewFile();
 					FileOutputStream fos = new FileOutputStream(propFile);
 					//设置默认值				
@@ -63,7 +67,7 @@ public class Settings {
 		try {
 			File propFile = new File(PROJECT_REAL_PATH + SETTINGS_FILE_NAME);
 			if(!propFile.exists()) propFile.createNewFile();
-//			System.out.println("真实路径"+propFile.getCanonicalPath());
+//			logger.info("真实路径"+propFile.getCanonicalPath());
 			FileInputStream fis = new FileInputStream(propFile);
 			
 			prop.loadFromXML(fis);

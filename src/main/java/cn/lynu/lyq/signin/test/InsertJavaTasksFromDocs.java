@@ -9,7 +9,7 @@ import java.util.TreeSet;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import cn.lynu.lyq.signin.db.HibernateSessionFactory;
+import cn.lynu.lyq.signin.db.HibernateSessionFactoryOld;
 import cn.lynu.lyq.signin.model.Task;
 
 public class InsertJavaTasksFromDocs {
@@ -32,7 +32,7 @@ public class InsertJavaTasksFromDocs {
 //		System.out.println(ts.toString());
 //		System.out.println("ts size="+ts.size());
 		
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateSessionFactoryOld.getSession();
 		Transaction trans=session.beginTransaction();
 		
 		Iterator<String> it = ts.iterator();

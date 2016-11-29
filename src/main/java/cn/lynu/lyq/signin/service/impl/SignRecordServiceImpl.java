@@ -5,22 +5,32 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import cn.lynu.lyq.signin.db.HibernateSessionFactory;
 import cn.lynu.lyq.signin.model.SignRecord;
 import cn.lynu.lyq.signin.model.Student;
 import cn.lynu.lyq.signin.service.SignRecordService;
 import cn.lynu.lyq.signin.util.DateUtil;
 import cn.lynu.lyq.signin.util.Settings;
+@Transactional
 @Component("signRecordService")
 public class SignRecordServiceImpl implements SignRecordService {
-
+	private static Logger logger = LoggerFactory.getLogger(SignRecordServiceImpl.class);
+	@Resource private SessionFactory sessionFactory;
+	
+	@Override
+	@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
 	public SignRecord getSignRecordByStuId(int studentId){
-		Session s = HibernateSessionFactory.getSession();
+		Session s = sessionFactory.getCurrentSession();
 		Query query = s.createQuery("from SignRecord where stu_id=? and regDate between :aa and :bb");
 		query.setInteger(0, studentId);
 
@@ -34,7 +44,7 @@ public class SignRecordServiceImpl implements SignRecordService {
 		List<SignRecord> list  = (List<SignRecord>)query.list();
 		
 		if(list==null || list.size()==0){
-			//System.out.println("getSignRecordByStuId:没有找到学生");
+			//logger.info("getSignRecordByStuId:没有找到学生");
 			return null;
 		}else{
 			return (SignRecord)(list.get(0));
@@ -45,10 +55,13 @@ public class SignRecordServiceImpl implements SignRecordService {
 	/* 
 	 * 日期格式必须为"yyyy-MM-dd"
 	 */
+	@Override
+	@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
 	public List<SignRecord> getSignRecordByRegDate(String dateStr){
+//		Session s = HibernateSessionFactory.getSession();
+		Session s = sessionFactory.getCurrentSession();
+		
 		Date[] dates = DateUtil.getBetweenDates(dateStr);
-
-		Session s = HibernateSessionFactory.getSession();
 		Query query = s.createQuery("from SignRecord where regDate between :aa and :bb");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		query.setString("aa",sdf.format(dates[0]) );
@@ -56,9 +69,8 @@ public class SignRecordServiceImpl implements SignRecordService {
 		
 		@SuppressWarnings("unchecked")
 		List<SignRecord> list  = (List<SignRecord>)query.list();
-		
 		if(list==null || list.size()==0){
-			System.out.println("getSignRecordByRegDate:没有找到学生");
+			logger.info("getSignRecordByRegDate:没有找到学生");
 			return null;
 		}else{
 			return list;
@@ -68,9 +80,9 @@ public class SignRecordServiceImpl implements SignRecordService {
 	/* 
 	 * 日期格式必须为"yyyy-MM-dd"
 	 */
+	@Override
 	public boolean updateStudentOnlineByRegDate(String dateStr, String className){
-		Session s = HibernateSessionFactory.getSession();
-		Transaction trans = s.beginTransaction();
+		Session s = sessionFactory.getCurrentSession();
 		
 		// Step 1: 从SignRecord表中查出指定日期的记录，并获取学生ids
 		Date[] dates = DateUtil.getBetweenDates(dateStr);	
@@ -78,7 +90,6 @@ public class SignRecordServiceImpl implements SignRecordService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		query.setString("aa",sdf.format(dates[0]) );
 		query.setString("bb",sdf.format(dates[1]) );
-		
 		@SuppressWarnings("unchecked")
 		List<SignRecord> signRecordlist  = (List<SignRecord>)query.list();
 		
@@ -102,8 +113,6 @@ public class SignRecordServiceImpl implements SignRecordService {
 			}
 			s.saveOrUpdate(stu);
 		}
-		
-		trans.commit();
 		return true;
 	}	
 	
@@ -115,10 +124,12 @@ public class SignRecordServiceImpl implements SignRecordService {
 		where record.regDate between '2014-12-22 00:00:00' and '2014-12-22 23:59:59'
 				and record.ip='127.0.0.1' and stu.className='2013级软件工程（移动方向）一班'
 	 */
+	@Override
+	@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
 	public Student getStudentByRegDateAndIpAndClassName(String dateStr, String ip, String className){
+//		Session s = HibernateSessionFactory.getSession();
+		Session s = sessionFactory.getCurrentSession();
 		Date[] dates = DateUtil.getBetweenDates(dateStr);
-
-		Session s = HibernateSessionFactory.getSession();
 		String queryString ="select stu as ip from SignRecord as record join record.student as stu " +
 							"where record.regDate between :aa and :bb " +
 							"and record.ip=:cc and stu.className=:dd";
@@ -133,10 +144,10 @@ public class SignRecordServiceImpl implements SignRecordService {
 		List<Student> list  = (List<Student>)query.list();
 		
 		if(list==null || list.size()==0){
-			System.out.println("getStudentByRegDateAndIpAndClassName:没有找到学生");
+			logger.info("getStudentByRegDateAndIpAndClassName:没有找到学生,dateStr={},ip={},className={}",dateStr, ip, className);
 			return null;
 		}else if(list.size()>1){
-			System.out.println("getStudentByRegDateAndIpAndClassName:找到了多个学生（在同一天同一班级同一IP时，有多个记录）");
+			logger.info("getStudentByRegDateAndIpAndClassName:找到了多个学生（在同一天同一班级同一IP时，有多个记录）");
 			return null;
 		}else{
 			return (Student)list.get(0);

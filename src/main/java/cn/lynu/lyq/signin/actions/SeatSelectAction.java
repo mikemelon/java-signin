@@ -6,18 +6,24 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import com.opensymphony.xwork2.ActionSupport;
 
 import cn.lynu.lyq.signin.model.SeatAvailable;
 import cn.lynu.lyq.signin.service.SeatAvailableService;
 import cn.lynu.lyq.signin.util.Settings;
 @Controller
 @Scope("prototype")
-public class SeatSelectAction {
+public class SeatSelectAction extends ActionSupport{
+	private static final long serialVersionUID = -6670625574248848427L;
+	private static Logger logger = LoggerFactory.getLogger(SeatSelectAction.class);
+	
 	private int rowIndex;
 	private int columnIndex;
-	
 	private int rowNum=6; //默认有6行8列座位可用（注意“列数”必须是偶数）
 	private int colNum=8;
 	private String isPost="0";
@@ -146,7 +152,7 @@ public class SeatSelectAction {
 			colNum=Integer.parseInt(Settings.load(Settings.SIGNIN_COLUMN_NUMBERS_KEY));
 		
 		}else if(isPost!=null && isPost.equals("1")){ // 更改单个座位
-			System.out.println("更改座位("+rowIndex+","+columnIndex+")中");
+			logger.info("更改座位("+rowIndex+","+columnIndex+")中");
 			if(rowIndex!=0 && columnIndex!=0){
 				seatAvailableService.updateSeatForRowAndColumn(rowIndex,columnIndex);
 			}

@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -23,6 +25,7 @@ import cn.lynu.lyq.signin.util.Settings;
 @Scope("prototype")
 public class StatsAction extends ActionSupport{
 	private static final long serialVersionUID = -1011953067569813358L;
+	private static Logger logger = LoggerFactory.getLogger(StatsAction.class);
 	
 	private List<String> classNameList;
 	private List<String> dateList;
@@ -82,9 +85,9 @@ public class StatsAction extends ActionSupport{
 		}
 		
 		List<Object[]> studentListRaw = studentService.getStatsList(currentClassName);//join查询得到的是每条数据是Object[]
-//		System.out.println("aaa===="+studentList.get(0));
+//		logger.info("aaa===="+studentList.get(0));
 //		Object[] oo=(Object[])studentList.get(0);
-//		System.out.println("bbb===="+oo[4]);
+//		logger.info("bbb===="+oo[4]);
 		
 		//列出查询的不重复的日期（精确到天）
 		List<String> distinctDateList = new ArrayList<String>();
@@ -100,7 +103,7 @@ public class StatsAction extends ActionSupport{
 			}
 			if(!containsDate) distinctDateList.add(strDate);
 		}
-		System.out.println(distinctDateList);
+		logger.debug("distinctDateList:"+distinctDateList.toString());
 		Collections.sort(distinctDateList);
 		dateList=distinctDateList;
 		

@@ -47,7 +47,8 @@
 	     <property name="hibernateProperties">
 	     	<props>
 	     		<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-	     		<prop key="hibernate.hbm2ddl.auto">update</prop>
+	     		<prop key="hibernate.connection.autocommit">false</prop>
+	     		<!-- <prop key="hibernate.hbm2ddl.auto">update</prop> -->
 	     		<prop key="hibernate.show_sql">false</prop>
 	     		<prop key="hibernate.format_sql">true</prop>
 	     	</props>
@@ -60,5 +61,5 @@
         </property>
     </bean>
 	
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:annotation-driven transaction-manager="transactionManager" />
 </beans>

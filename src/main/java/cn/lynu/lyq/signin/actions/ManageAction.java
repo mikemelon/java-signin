@@ -7,6 +7,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -20,6 +22,7 @@ import cn.lynu.lyq.signin.util.Settings;
 @Controller
 @Scope("prototype")
 public class ManageAction extends ActionSupport {
+	private static Logger logger = LoggerFactory.getLogger(ManageAction.class);
 	private static final long serialVersionUID = 9220420392643905716L;
 	
 	private List<Student> offlineStudentList;
@@ -143,12 +146,12 @@ public class ManageAction extends ActionSupport {
 		}
 		
 		if(mycommand==1){  //设置日期，并根据日期更新当前学生状态
-			System.out.println("============update online====BEGIN========");
+			logger.info("============update online====BEGIN========");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String dateStr = sdf.format(signDate);
 			signRecordService.updateStudentOnlineByRegDate(dateStr,currentClassName);
 			Settings.save(Settings.CURRENT_DATE_KEY, dateStr);
-			System.out.println("============update online====END==========");
+			logger.info("============update online====END==========");
 		}else if(mycommand==2){ //含班级和上课地点（教室），并根据教室情况自动调整总行列数
 			
 			Settings.save(Settings.CURRENT_CLASS_KEY, currentClassName);
@@ -158,11 +161,11 @@ public class ManageAction extends ActionSupport {
 			Settings.save(Settings.SIGNIN_ROW_NUMBERS_KEY, String.valueOf(rowsAndColumns[0]));
 			Settings.save(Settings.SIGNIN_COLUMN_NUMBERS_KEY, String.valueOf(rowsAndColumns[1]));
 			
-			System.out.println("切换到班级：" + currentClassName + ", 上课地点：" + currentLocation +
+			logger.info("切换到班级：" + currentClassName + ", 上课地点：" + currentLocation +
 								"此教室有" + rowsAndColumns[0] + "行" + rowsAndColumns[1] + "列");
 			
 		}else if(mycommand==3){ //请假
-			System.out.println("请假，stu_id="+stu_id);
+			logger.info("请假，stu_id="+stu_id);
 			absentRequestService.addAbsentReqeust(stu_id,new Date());
 		}
 		

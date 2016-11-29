@@ -6,17 +6,23 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
 
 import cn.lynu.lyq.signin.model.Assignment;
 import cn.lynu.lyq.signin.service.AssignmentService;
 import cn.lynu.lyq.signin.util.Settings;
 @Controller
 @Scope("prototype")
-public class AssignmentAction {
+public class AssignmentAction extends ActionSupport{
+	private static final long serialVersionUID = 5583655833051548583L;
+	private static Logger logger = LoggerFactory.getLogger(AssignmentAction.class);
+	
 	private String comments;
 	private File attachFile;
 	private String attachFileFileName;
@@ -60,7 +66,7 @@ public class AssignmentAction {
 				
 				/*boolean submitOK=*/assignmentService.saveAssignmentWithCurDate(regNo,
 						new File(file,attachFileFileName).getAbsolutePath(), comments);
-				
+				logger.info("作业已保存:"+attachFileFileName);
 				List<Assignment> list=assignmentService.getAssignmentList();
 				ctx.put("ASSIGNMENT_LIST", list);
 				return "list";

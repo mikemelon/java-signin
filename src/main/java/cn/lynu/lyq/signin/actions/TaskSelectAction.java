@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -17,6 +19,7 @@ import cn.lynu.lyq.signin.util.Settings;
 @Scope("prototype")
 public class TaskSelectAction extends ActionSupport {
 	private static final long serialVersionUID = -3979300440889168352L;
+	private static Logger logger = LoggerFactory.getLogger(TaskSelectAction.class);
 	
 	private List<Task> taskList;
 	private Integer taskId;
@@ -56,7 +59,7 @@ public class TaskSelectAction extends ActionSupport {
 		ActionContext ctx=ActionContext.getContext();
 		String stuRegNo=(String)ctx.getSession().get("CURRENT_USER_REGID");
 		if(taskService.checkStudentAlreadyAllocateTask(stuRegNo)){
-//			System.out.println("学号："+stuRegNo+"任务已经分配过了");
+//			distinctDateList("学号："+stuRegNo+"任务已经分配过了");
 			taskAllocatedFlag=true;
 		}else{
 			taskAllocatedFlag=false;
@@ -69,11 +72,11 @@ public class TaskSelectAction extends ActionSupport {
 		ActionContext ctx=ActionContext.getContext();
 		String stuRegNo=(String)ctx.getSession().get("CURRENT_USER_REGID");
 		if(taskService.checkStudentAlreadyAllocateTask(stuRegNo)){
-			System.out.println("学号："+stuRegNo+"任务已经分配过了");
+			logger.info("学号："+stuRegNo+"任务已经分配过了");
 			return ERROR;
 		}
 		if(taskService.checkTaskNotAllocated(taskId)){
-			System.out.println("编号为"+taskId+"的任务已经被分配了！");
+			logger.info("编号为"+taskId+"的任务已经被分配了！");
 		}
 		boolean updateFlg=false;
 		if( stuRegNo!=null && !stuRegNo.equals("")){
