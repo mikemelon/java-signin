@@ -57,11 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<br/><hr/>
 		设置当前班级和上课地点(同时会根据上课地点自动推断座位行列数）:
 		<s:select name="currentClassName" list="classNameList"></s:select> &nbsp;
-		<s:select name="currentLocation" list="#{'1号楼1号机房':'1号楼1号机房',
-												 '1号楼7号机房':'1号楼7号机房',
-												 '1号楼8号机房':'1号楼8号机房',
-												 '1号楼9号机房':'1号楼9号机房',
-												 'G5教学楼110机房':'G5教学楼110机房'}"></s:select>
+		<s:select name="currentLocation" list="locationList" listKey="key" listValue="value"></s:select>
 		<input type="button" value="设置" onclick="form1.mycommand.value='2';form1.submit();"/>
 	</form>
   </body>

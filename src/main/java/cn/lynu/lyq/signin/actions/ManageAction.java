@@ -2,6 +2,7 @@ package cn.lynu.lyq.signin.actions;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,6 +19,7 @@ import cn.lynu.lyq.signin.model.Student;
 import cn.lynu.lyq.signin.service.AbsentRequestService;
 import cn.lynu.lyq.signin.service.SignRecordService;
 import cn.lynu.lyq.signin.service.StudentService;
+import cn.lynu.lyq.signin.util.MiscUtil;
 import cn.lynu.lyq.signin.util.Settings;
 @Controller
 @Scope("prototype")
@@ -27,6 +29,7 @@ public class ManageAction extends ActionSupport {
 	
 	private List<Student> offlineStudentList;
 	private List<String> classNameList;
+	private List<HashMap<String,String>> locationList;
 	private String currentClassName;
 	private String currentLocation;
 	private int mycommand;
@@ -51,6 +54,14 @@ public class ManageAction extends ActionSupport {
 
 	public void setClassNameList(List<String> classNameList) {
 		this.classNameList = classNameList;
+	}
+	
+	public List<HashMap<String,String>> getLocationList() {
+		return locationList;
+	}
+
+	public void setLocationList(List<HashMap<String,String>> locationList) {
+		this.locationList = locationList;
 	}
 
 	public String getCurrentClassName() {
@@ -127,6 +138,7 @@ public class ManageAction extends ActionSupport {
 		if(checkPermission()==false) return "check";
 		
 		classNameList = studentService.findDistinctClassName();
+		locationList = MiscUtil.getLocationList();
 		Settings.PROJECT_REAL_PATH = getClass().getResource("/").getPath() ;
 		
 		if(isPost!=null && isPost.equals("0")){
