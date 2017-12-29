@@ -90,8 +90,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <TABLE style="border-bottom:1px solid #e6ee9c;width:80%;padding:0;border-collapse:collapse;border-spacing:0;">
   <TR>
-    <TD height=50><DIV align=center class="CompanyName"><B>Java系列课程签到</B></DIV></TD>
-    <TD vAlign=bottom><DIV align=right><B><FONT size=2 color="#f45">请点击头像签到</FONT></B></DIV></TD>
+    <TD height=50><DIV align=center class="CompanyName"><B>计算机实验室Web签到系统</B></DIV></TD>
+    <TD vAlign=bottom><DIV align=right><B><FONT size=2 color="#f45">请先在“课堂点名”中点击头像签到</FONT></B></DIV></TD>
   </TR>
 </TABLE>
 </DIV>
@@ -128,14 +128,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <TD height=25 width="20%"></TD>
           <TD><DIV align=center class="nav1"><B><A href="assignment.action"><FONT color=#ff9c00>提交作业</FONT></A></B></DIV></TD>
 		</TR>
-        <TR>
+        <!--TR>
           <TD height=25 width="20%"></TD>
           <TD><DIV align=center class="nav0 nav1"><B><A href=""><FONT color=#ff9c00>作业统计</FONT></A></B></DIV></TD>
 		</TR>
         <TR>
           <TD height=25 width="20%"></TD>
           <TD><DIV align=center class="nav0 nav1"><B><A href=""><FONT color=#ff9c00>平时成绩</FONT></A></B></DIV></TD>
-		</TR>
+		</TR-->
         <TR>
           <TD height=25 width="20%"></TD>
           <TD><DIV align=center class="nav1"><B><A href="selecttask.action"><FONT color=#ff5500>领取任务</FONT></A></B></DIV></TD>
@@ -152,7 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </DIV>
       <DIV align=right>
 		  <DIV align=center style="height:40px;line-height:40px;">
-			<FONT color=#78909c face="Consolas,Arial, Helvetica, sans-serif" size=2>&copy;Copyright 2012-2016 Luoyang Normal University author:lyq.All rights reserved.</FONT><FONT color=#3169a5> </FONT><BR>
+			<FONT color=#78909c face="Consolas,Arial, Helvetica, sans-serif" size=2>&copy;Copyright 2012-2017 Luoyang Normal University. Author:lyq. All rights reserved.</FONT><FONT color=#3169a5> </FONT><BR>
 		  </DIV>
 	  </DIV>
 	</TD>
