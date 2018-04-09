@@ -239,6 +239,8 @@ public class SignInAction extends ActionSupport{
 			ipTableFileName="1_9#_ip.properties";
 		}else if(currentLocation!=null && currentLocation.equals("1号楼1号机房")){
 			ipTableFileName="1_1#_ip.properties";
+		}else if(currentLocation!=null && currentLocation.equals("G13教学楼203机房")){
+			ipTableFileName="G13_203_ip.properties";
 		}else if(currentLocation!=null && currentLocation.equals("G5教学楼110机房")){
 			ipTableFileName="G5_110_ip.properties";
 		}
