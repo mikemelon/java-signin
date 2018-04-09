@@ -72,6 +72,32 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Override
 	@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
+	public Student getStudentForCurrentClassAndIP(String className, String ip) {
+//		Session s = HibernateSessionFactory.getSession();
+		Session s = sessionFactory.getCurrentSession();
+		Query query = s.createQuery("from SignRecord sr where sr.student.className=? and ip=? and regDate between :aa and :bb");
+		query.setString(0, className);
+		query.setString(1, ip);
+		String dateStr = Settings.load(Settings.CURRENT_DATE_KEY);
+		
+		Date[] dates = DateUtil.getBetweenDates(dateStr);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");		
+		query.setString("aa",sdf.format(dates[0]) );
+		query.setString("bb",sdf.format(dates[1]) );	
+		
+		@SuppressWarnings("unchecked")
+		List<SignRecord> list  = (List<SignRecord>)query.list();
+		if(list==null || list.size()==0){
+			return null;
+		}else{
+			SignRecord signRecord1= list.get(0);
+			Student stuWithRepeatIP= signRecord1.getStudent();
+			return stuWithRepeatIP;
+		}
+	}	
+	
+	@Override
+	@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
 	public Student getIPForCurDate(String ip){
 //		Session s = HibernateSessionFactory.getSession();
 		Session s = sessionFactory.getCurrentSession();
@@ -198,6 +224,6 @@ public class StudentServiceImpl implements StudentService {
 		}else{
 			return true;
 		}
-	}	
-	
+	}
+
 }

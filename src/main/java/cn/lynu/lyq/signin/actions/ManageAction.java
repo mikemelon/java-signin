@@ -126,6 +126,9 @@ public class ManageAction extends ActionSupport {
 		}else if(locationStr!=null && locationStr.equals("1号楼1号机房")){
 			rowAndColumnNums[0]=5;
 			rowAndColumnNums[1]=10;
+		}else if(locationStr!=null && locationStr.equals("G13教学楼201机房")){
+			rowAndColumnNums[0]=7;
+			rowAndColumnNums[1]=8;
 		}else if(locationStr!=null && locationStr.equals("G5教学楼110机房")){
 			rowAndColumnNums[0]=5;
 			rowAndColumnNums[1]=12;
@@ -173,8 +176,8 @@ public class ManageAction extends ActionSupport {
 			Settings.save(Settings.SIGNIN_ROW_NUMBERS_KEY, String.valueOf(rowsAndColumns[0]));
 			Settings.save(Settings.SIGNIN_COLUMN_NUMBERS_KEY, String.valueOf(rowsAndColumns[1]));
 			
-			logger.info("切换到班级：" + currentClassName + ", 上课地点：" + currentLocation +
-								"此教室有" + rowsAndColumns[0] + "行" + rowsAndColumns[1] + "列");
+			logger.info("切换到班级:" + currentClassName + ", 上课地点：" + currentLocation +
+								",此教室有" + rowsAndColumns[0] + "行" + rowsAndColumns[1] + "列");
 			
 		}else if(mycommand==3){ //请假
 			logger.info("请假，stu_id="+stu_id);

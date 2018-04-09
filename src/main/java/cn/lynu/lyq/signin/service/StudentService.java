@@ -11,6 +11,7 @@ public interface StudentService {
 	public Student validateStudent(String regNo, String name);
 	public List<Student> findByOnline(Boolean online, String className);
 	public Student getIPForCurDate(String ip);
+	public Student getStudentForCurrentClassAndIP(String className, String ip);
 	public List<String> findDistinctClassName();
 	public boolean updateStudent(Student stuToUpdate, String ipAddress, int rowIndex, int columnIndex);
 	public  boolean updateStudentOnline(String className, boolean online);

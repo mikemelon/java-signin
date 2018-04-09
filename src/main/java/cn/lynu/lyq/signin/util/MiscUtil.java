@@ -26,7 +26,7 @@ public class MiscUtil {
 			for(File f: locFiles){
 				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f),"utf-8"));
 				String firstLine = br.readLine();
-				System.out.println(firstLine);
+//				System.out.println(firstLine);
 				String locDetailStr = "未知机房";//例如：1号楼8号机房
 				if(firstLine.startsWith("﻿#")){
 //					System.out.println(firstLine.substring(2));

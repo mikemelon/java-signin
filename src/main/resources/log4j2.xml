@@ -9,11 +9,11 @@
         </Console>  
     </Appenders>  
     <Loggers>
-<!--     	
+     	
 		<Logger name="jdbc.sqltiming" level="info" additivity="false">
     		<appender-ref ref="ConsoleShort"/>
     	</Logger> 
--->
+
 		<Logger name="cn.lynu.lyq.signin" level="info" additivity="false">
 			<appender-ref ref="ConsoleShort"/>
 		</Logger>

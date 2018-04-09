@@ -326,12 +326,13 @@ public class SignInAction extends ActionSupport{
 				logger.info("该学生 - {}  已经登陆，如有问题请联系管理员，(原因可能是student表的登录状态true)",stu1.getName());
 				return "success";			
 			}
-			//判断当日的重复IP登陆
-			Student stu_tmp = studentService.getIPForCurDate(ip);
+			//判断当日当前班级的重复IP登陆
+//			Student stu_tmp = studentService.getIPForCurDate(ip);
+			Student stu_tmp = studentService.getStudentForCurrentClassAndIP(currentClassName,ip);
 			if(stu_tmp!=null){
 				logger.info(stu1.getName()+"--->重复IP登陆");
 				errorMsg="已经有" + stu_tmp.getName() + 
-						 "（学号:"+stu_tmp.getRegNo()+")用这个IP登陆，疑似代人签到，如有问题请联系管理员";
+						 "(班级:"+currentClassName+",学号:"+stu_tmp.getRegNo()+")用这个IP登陆，疑似代人签到，如有问题请联系管理员";
 				return "success";					
 			}
 			
