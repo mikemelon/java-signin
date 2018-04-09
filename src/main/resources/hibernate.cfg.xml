@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC 
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN" 
+          "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+<session-factory>
+	<property name="connection.username">root</property>
+<!-- 	<property name="connection.url">
+		jdbc:mysql://localhost:3306/javaee?serverTimezone=UTC
+	</property> -->
+	<property name="connection.url">
+		jdbc:log4jdbc:mysql://localhost:3306/javaee?useUnicode=true&amp;serverTimezone=UTC
+	</property>
+	<property name="dialect">
+		org.hibernate.dialect.MySQLDialect
+	</property>
+	<property name="connection.password">root</property>
+<!-- 	<property name="connection.driver_class">
+		com.mysql.jdbc.Driver
+	</property> -->
+	<property name="connection.driver_class">
+		net.sf.log4jdbc.DriverSpy
+	</property>
+	
+	<property name="hbm2ddl.auto">update</property>
+	<property name="show_sql">false</property>
+
+	<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+	<property name="c3p0.max_size">30</property>
+	<property name="c3p0.timeout">120</property>
+	<property name="c3p0.min_size">5</property>
+	<property name="c3p0.max_statements">50</property>
+
+	<mapping class="cn.lynu.lyq.signin.model.SignRecord" />
+	<mapping class="cn.lynu.lyq.signin.model.Student" />
+	<mapping class="cn.lynu.lyq.signin.model.Assignment" />
+	<mapping class="cn.lynu.lyq.signin.model.SeatAvailable" />
+	<mapping class="cn.lynu.lyq.signin.model.AbsentRequest" />
+	<mapping class="cn.lynu.lyq.signin.model.Task" />
+	
+	
+</session-factory>
+
+</hibernate-configuration>
