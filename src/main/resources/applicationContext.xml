@@ -46,7 +46,8 @@
 	     </property>
 	     <property name="hibernateProperties">
 	     	<props>
-	     		<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+	     		<!-- 一个时有时无的怪BUG的修正：https://www.cnblogs.com/zzsaf/p/6902559.html -->
+	     		<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop> 
 	     		<prop key="hibernate.connection.autocommit">false</prop>
 	     		<!-- <prop key="hibernate.hbm2ddl.auto">update</prop> -->
 	     		<prop key="hibernate.show_sql">false</prop>
