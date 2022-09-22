@@ -98,7 +98,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.39</version>
+			<version>8.0.28</version>
 			<!-- StackOverflow: http://stackoverflow.com/questions/26515700/mysql-jdbc-driver-5-1-33-time-zone-issue -->
 			<!-- Mesquita's answer is CORRECT! -->
 		</dependency>
